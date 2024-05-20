@@ -25,8 +25,8 @@ jobs:
         raw_website=$(curl -l $URL)
         
         current_date=$(date +"%Y-%m-%d")
-        sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .))
-        buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .))
+        sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , . ))
+        buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , . ))
         available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})")
         
         echo "${current_date},${sell_price},${buy_price},${available}" >> gold_scrapper.csv
