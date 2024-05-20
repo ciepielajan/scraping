@@ -1,0 +1,36 @@
+name: Fetch demo.pl, extract title and head, and save to file
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  fetch-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Fetch metalelokacyjne.pl and append sell and buy price to data.txt
+      run: |
+        URL='https://www.metalelokacyjne.pl/product-pol-1065-Sztabka-Valcambi-1-gram-Zlota-LBMA-Lamana.html'
+        SELL_START='<strong class="projector_prices__price" id="projector_price_value">'
+        SELL_END='</strong>'
+        BUY_START='<strong class="projector_prices__srp" id="projector_price_srp">'
+        BUY_END='</strong>'
+        AVAILABLE_START='<span class="projector_stocks__info projector_info__link">'
+        AVAILABLE_END='</span>'
+        raw_website=$(curl -l $URL)
+        current_date=$(date +"%Y-%m-%d")
+        sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d" " -f1)
+        buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d" " -f1)
+        available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})")
+        
+        echo "${current_date};${sell_price};${buy_price};${available}" >> gold_scrapper.csv
+
+    - name: Upload demo.txt as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: gold_scrapper-file
+        path: gold_scrapper.csv
