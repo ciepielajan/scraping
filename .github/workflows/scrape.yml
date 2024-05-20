@@ -2,7 +2,7 @@ name: Fetch demo.pl, extract title and head, and save to file
 
 on:
   schedule:
-    - cron: '30 17 * * *'
+    - cron: '47 17 * * *'
 
 jobs:
   fetch-demo:
@@ -21,13 +21,15 @@ jobs:
         BUY_END='</strong>'
         AVAILABLE_START='<span class="projector_stocks__info projector_info__link">'
         AVAILABLE_END='</span>'
+        
         raw_website=$(curl -l $URL)
+        
         current_date=$(date +"%Y-%m-%d")
-        sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d" " -f1)
-        buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d" " -f1)
+        sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .))
+        buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .))
         available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})")
         
-        echo "${current_date};${sell_price};${buy_price};${available}" >> gold_scrapper.csv
+        echo "${current_date},${sell_price},${buy_price},${available}" >> ./gold_scrapper.csv
 
     - name: Commit and push if it changed
       run: |-
