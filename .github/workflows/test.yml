@@ -18,8 +18,6 @@ jobs:
         echo $current_date >> test.txt
     - name: Commit and push if it changed
       run: |-
-        git config --global user.name "Automated"
-        git config --global user.email "ciepielajan@gmail.com"
         git add test.txt
         timestamp=$(date -u +"%Y-%m-%d %H:%M:%S")
         git commit -m "Latest data: ${timestamp}" || exit 0
