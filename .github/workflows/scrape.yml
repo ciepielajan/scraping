@@ -2,7 +2,7 @@ name: Fetch demo.pl, extract title and head, and save to file
 
 on:
   schedule:
-    - cron: '10 18 * * *'
+    - cron: '0/5 * * * *'
 
 jobs:
   fetch-demo:
@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Fetch metalelokacyjne.pl and append sell and buy price to data.txt
-      run: |
+      run: |-
         URL='https://www.metalelokacyjne.pl/product-pol-1065-Sztabka-Valcambi-1-gram-Zlota-LBMA-Lamana.html'
         SELL_START='<strong class="projector_prices__price" id="projector_price_value">'
         SELL_END='</strong>'
