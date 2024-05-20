@@ -2,7 +2,7 @@ name: Fetch demo.pl, extract title and head, and save to file
 
 on:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '40 17 * * *'
 
 jobs:
   fetch-demo:
