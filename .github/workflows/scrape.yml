@@ -1,6 +1,8 @@
 name: Fetch demo.pl, extract title and head, and save to file
 
 on:
+  push:
+  workflow_dispatch:
   schedule:
     - cron: '0/5 * * * *'
 
