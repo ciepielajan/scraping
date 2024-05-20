@@ -1,0 +1,23 @@
+name: test
+
+on:
+  schedule:
+    - cron: '* * * * *'
+
+jobs:
+  fetch-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Fetch test
+      run: |       
+        echo "test" >> test.txt
+
+    - name: Upload demo.txt as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-file
+        path: test.txt
