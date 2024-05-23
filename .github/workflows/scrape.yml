@@ -22,7 +22,7 @@ jobs:
         AVAILABLE_START='<span class="projector_stocks__info projector_info__link">'
         AVAILABLE_END='</span>'
         raw_website=$(curl -l $URL)
-        current_date=$(date +"%Y-%m-%d")
+        current_date=$(date +"%Y-%m-%d %H:%M")
         sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .  || echo "error pattern")
         buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .  || echo "error pattern")
         available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})" || echo "dostępny")
