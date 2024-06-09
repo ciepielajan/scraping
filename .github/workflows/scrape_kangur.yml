@@ -1,4 +1,4 @@
-name: gold_scrapper
+name: gold_scrapper_kangur
 
 on:
   push:
