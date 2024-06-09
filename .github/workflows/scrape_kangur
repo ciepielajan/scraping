@@ -1,0 +1,38 @@
+name: gold_scrapper
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12,17,22 * * *'
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out this repo
+      uses: actions/checkout@v2
+    - name: Fetch latest data
+      run: |-
+        URL='https://www.metalelokacyjne.pl/product-pol-9098-Australijski-Kangur-1-10-uncji-Zlota-2024.html' 
+        SELL_START='<strong class="projector_prices__price" id="projector_price_value">'
+        SELL_END='</strong>'
+        BUY_START='<strong class="projector_prices__srp" id="projector_price_srp">'
+        BUY_END='</strong>'
+        AVAILABLE_START='<span class="projector_stocks__info projector_info__link">'
+        AVAILABLE_END='</span>'
+        raw_website=$(curl -l $URL)
+        current_date=$(date +"%Y-%m-%d %H:%M")
+        sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .  || echo "error pattern")
+        buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d" " -f1 | tr , .  || echo "error pattern")
+        available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})" || echo "dostępny")
+        echo "${current_date},${sell_price},${buy_price},${available}" >> gold_scrapper_kangur.csv
+    - name: Commit and push if it changed
+      run: |-
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+        git pull
+        git add gold_scrapper.csv
+        timestamp=$(date -u +"%Y-%m-%d %H:%M:%S")
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push
