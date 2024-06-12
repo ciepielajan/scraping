@@ -32,7 +32,7 @@ jobs:
         git config user.name "Automated"
         git config user.email "actions@users.noreply.github.com"
         git pull
-        git add gold_scrapper.csv
+        git add gold_scrapper_kangur.csv
         timestamp=$(date -u +"%Y-%m-%d %H:%M:%S")
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
