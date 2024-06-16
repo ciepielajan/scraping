@@ -29,8 +29,8 @@ jobs:
           buy_price=""
           available="strona niedostępna"
         else
-          sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d"<" -f1 | tr -d " zł" | tr , .  || echo "error pattern")
-          buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d"<" -f1 | tr -d " zł" | tr , . || echo "error pattern"); [ "$buy_price" != "" ] && buy_price="brak na stronie"
+          sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d"<" -f1 | tr -d " zł" | tr , .  || echo "error pattern"); [ "$sell_price" == "" ] && sell_price="brak na stronie"
+          buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d"<" -f1 | tr -d " zł" | tr , . || echo "error pattern"); [ "$buy_price" == "" ] && buy_price="brak na stronie"
           available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})" || echo "nie dostępny")
         fi
         echo "${current_date},${sell_price},${buy_price},${available}" >> gold_scrapper_LBMA_Lamana.csv
