@@ -19,8 +19,8 @@ jobs:
         SELL_END='</strong>'
         BUY_START='<strong class="projector_prices__srp" id="projector_price_srp">'
         BUY_END='</strong>'
-        AVAILABLE_START='<span class="projector_stocks__info projector_info__link">'
-        AVAILABLE_END='</span>'
+        AVAILABLE_START='<button class="projector_buy__button btn --solid --large" id="projector_button_basket" type="submit">'
+        AVAILABLE_END='</button>'
         raw_website=$(curl -l $URL)
         current_date=$(date +"%Y-%m-%d %H:%M")
 
