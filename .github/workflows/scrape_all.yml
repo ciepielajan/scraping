@@ -14,7 +14,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Fetch latest data
       run: |-
-        URL='https://www.metalelokacyjne.pl/product-pol-9098-Australijski-Kangur-1-10-uncji-Zlota-2024.html' 
         links="https://www.metalelokacyjne.pl/product-pol-108-Sztabka-1-gram-Zlota-LBMA.html https://www.metalelokacyjne.pl/product-pol-1065-Sztabka-Valcambi-1-gram-Zlota-LBMA-Lamana.html https://www.metalelokacyjne.pl/product-pol-9098-Australijski-Kangur-1-10-uncji-Zlota-2024.html"
 
         for URL in $links
@@ -46,6 +45,7 @@ jobs:
         git config user.name "Automated"
         git config user.email "actions@users.noreply.github.com"
         git pull
+        links="https://www.metalelokacyjne.pl/product-pol-108-Sztabka-1-gram-Zlota-LBMA.html https://www.metalelokacyjne.pl/product-pol-1065-Sztabka-Valcambi-1-gram-Zlota-LBMA-Lamana.html https://www.metalelokacyjne.pl/product-pol-9098-Australijski-Kangur-1-10-uncji-Zlota-2024.html"
         for URL in $links
         do
           fn=$(echo $URL | cut -d"-" -f4- | cut -d"." -f1)
