@@ -1,4 +1,4 @@
-name: gold_scrapper
+name: gold_scrapper_LBMA_Lamana
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
           buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d"<" -f1 | tr -d " zł" | tr , . || echo "error pattern")
           available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})" || echo "nie dostępny")
         fi
-        echo "${current_date},${sell_price},${buy_price},${available}" >> gold_scrapper.csv
+        echo "${current_date},${sell_price},${buy_price},${available}" >> gold_scrapper_LBMA_Lamana.csv
 
         
 
@@ -42,7 +42,7 @@ jobs:
         git config user.name "Automated"
         git config user.email "actions@users.noreply.github.com"
         git pull
-        git add gold_scrapper.csv
+        git add gold_scrapper_LBMA_Lamana.csv
         timestamp=$(date -u +"%Y-%m-%d %H:%M:%S")
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
