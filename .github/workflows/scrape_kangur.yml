@@ -19,8 +19,9 @@ jobs:
         SELL_END='</strong>'
         BUY_START='<strong class="projector_prices__srp" id="projector_price_srp">'
         BUY_END='</strong>'
-        AVAILABLE_START='<span class="projector_stocks__info projector_info__link">'
-        AVAILABLE_END='</span>'
+        AVAILABLE_START='<button class="projector_buy__button btn --solid --large" id="projector_button_basket" type="submit">'
+        AVAILABLE_END='</button>'
+
         raw_website=$(curl -l $URL)
         current_date=$(date +"%Y-%m-%d %H:%M")
         if [ -z "$raw_website" ]; then
@@ -30,7 +31,7 @@ jobs:
         else
           sell_price=$(echo $raw_website | grep -oP "(?<=${SELL_START}).*?(?=${SELL_END})" | cut -d">" -f2 | cut -d"<" -f1 | tr -d " zł" | tr , .  || echo "error pattern")
           buy_price=$(echo $raw_website | grep -oP "(?<=${BUY_START}).*?(?=${BUY_END})" | cut -d">" -f2 | cut -d"<" -f1 | tr -d " zł" | tr , . || echo "error pattern")
-          available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})" || echo "dostępny")
+          available=$(echo $raw_website | grep -oP "(?<=${AVAILABLE_START}).*?(?=${AVAILABLE_END})" || echo "nie dostępny")
         fi
         echo "${current_date},${sell_price},${buy_price},${available}" >> gold_scrapper_kangur.csv
     - name: Commit and push if it changed
