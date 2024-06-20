@@ -1,4 +1,4 @@
-name: gold_scrapper_all
+name: scrapper_metalelokacyjne
 
 on:
   push:
