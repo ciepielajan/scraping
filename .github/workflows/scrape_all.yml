@@ -46,12 +46,8 @@ jobs:
         git config user.email "actions@users.noreply.github.com"
         git pull
         timestamp=$(date -u +"%Y-%m-%d %H:%M:%S")
-        for URL in $links
-        do
-          fn=$(echo $URL | cut -d"-" -f4- | cut -d"." -f1)
-          git add $fn.csv
-          git commit -m "Latest data: ${timestamp}" || exit 0
-          git push
-        done
+        git add *
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push
         
         
